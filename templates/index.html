@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+
+<html>
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+    
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../static/style.css">
+<div class="fundo">
+    <div class="box1">
+        <header>
+            <div class="titulo">
+                <img src="https://ibm.box.com/shared/static/r53cf35ir25ptr0408l54fmr2ucffu78.png" class="logo">
+                <h1>Desafio 9</h1>
+                <img src="https://ibm.box.com/shared/static/m3ir96rdolker6nmnsl9zllpbs14nipq.png" class="bb">
+            </div>
+        </header>
+
+        <body>
+        <!-- parte 1 -->
+        <h3>Parte 1 - Cálculos com IoT</h2>
+        <p>&emsp;Precisamos saber se as nossas plantações estão em boas condições de irrigação e temperatura e desejamos automatizar esse processo com IoT. Realize cálculos utilizando dados que estaremos emitindo via um dispositivo no Watson IoT Platform. Os resultados deverão ser retornados em formato JSON na rota <b>'/iot'</b> dessa aplicação. Estamos emitindo os seguintes dados: </p>
+        <div class="json">1. Temperatura do ar em graus Celsius<br><br>2. Umidade relativa do ar<br><br>3. Umidade volumétrica do solo, considerando que o solo medido pelo nosso sensor é uma semi-esfera com raio de 1 metro.<br><br><span style="color:yellow;">Umidade = volume de água / volume total</span></div>
+        <p>&emsp;Pedimos os seguintes cálculos:</p>
+        <div class="json">1. Temperatura, em graus Fahrenheit, do ar<br><br>2. ITU - índice de temperatura e umidade do ar<br><span style="color: yellow;">ITU = T - 0.55 ( 1 - UR )( T - 14 )</span><br>sendo T a temperatura e UR a umidade relativa do ar<br><br>3. Volume da água, em metros cúbicos, presente na porção do solo sendo medida pelo nosso sensor de umidade</div>
+        <p>&emsp;O JSON deverá conter as seguintes chaves e valores:</p>
+        <div class="json">{<br>&emsp;<span class="key">"iotData"</span>: <span class="value">(dados de IoT lidos do nosso dispositivo da exata forma como vieram)</span>,<br>&emsp;<span class="key">"itu"</span>: <span class="value">(seu número calculado de ITU)</span>,<br>&emsp;<span class="key">"volumeAgua"</span>: <span class="value">(seu número calculado de volume da água presente)</span>,<br>&emsp;<span class="key">"fahrenheit"</span>: <span class="value">(seu número calculado de temperatura em Fahrenheit)</span><br>}</div>
+        <p>Exemplo:</p>
+        <div class="json">{<br>&emsp;<span class="key">"iotData"</span>:
+            {<br>&emsp;&emsp;<span class="key">"timestamp"</span>:
+            <span class="int">928982</span>,<br>&emsp;&emsp;<span class="key">"temperatura"</span>:
+            <span class="int">22</span>,<br>&emsp;&emsp;<span class="key">"umidade_ar"</span>: <span class="int">0.67</span>,
+            <br>&emsp;&emsp;<span class="key">"umidade_solo"</span>: <span class="int">0.41</span><br>&emsp;},
+            <br>&emsp;<span class="key">"itu"</span>: <span class="int">31</span>,<br>&emsp;<span class="key">"volumeAgua"</span>: <span class="int">1</span>,<br>&emsp;<span class="key">"fahrenheit"</span>: <span class="int">46</span><br>}</div>
+        <p style="text-align: center;">(dados completamente ilustrativos, sem nenhum cálculo correto)</p>
+        <p>&emsp;Os dados em JSON que serão retornados deverão ser salvos na variável 'resposta' localizada no arquivo app.py, linha 23. Sendo salvos nessa variável, já serão retornados na rota <b>'/iot'</b>. Para submeter, suba as alterações na aplicação para seu git, faça um novo build do seu container no OpenShift, espere o novo pod ficar ativo e insira seus dados <a href="https://desafio9.mybluemix.net/" target="_blank">na página de submit</a>. Realize o submit quantas vezes for necessário.
+            <br><br>Credenciais do nosso Watson IoT Platform:</p><div class="json">Da organização<br>apikey: "a-y76ylb-ckj29x2v6b"<br>token: "IoZc5eC_lxrtJdmi4O"<br><br>Do dispositivo<br>type id: "maratona"<br>device id: "d9"<br><br>ID do evento: "sensor"</div>
+        <p style="text-align: center;"><i>Atenção: utilize o Postman para fazer o teste local na sua aplicação antes de submeter. Execute o arquivo app.py para inicializar a aplicação localmente.</i></p>
+
+        <!-- parte 2 -->
+        <hr>
+        <h3>Parte 2 - Desenvolver um modelo deep learning de computer vision</h3>
+        <p>&emsp;Desenvolver programa de deep learning com Python em Jupyter Notebook no Watson Studio e fazer deploy no Watson Machine Learning.
+            Utilize dataset disponibilizado para criar um modelo para reconhecer saúde de plantio, se tem evidência de praga ou não. 
+            Crie um projeto no Watson Studio, adicione um Jupyter Notebook e importe o notebook <b>'modelo.ipynb'</b> localizado na pasta deep-learning dessa aplicação. Faça as adaptações necessárias no modelo e treine-o, de forma a obter a melhor acuracidade do modelo. Instancie um serviço de Watson Machine Learning em sua conta (Não é possível fazer na conta 1960796). Faça o deploy do modelo no Watson Machine Learning e implemente a chamada API ao modelo, em Python com Flask. Essa aplicação deverá receber uma imagem por via de um método http POST e retornar a classe esperada para ela na rota <b>'/predict'</b>. Teremos as seguintes classes de imagens:</p>
+        <div class="json">normal<br><br>praga</div>
+        <p>A resposta deverá vir no seguinte formato:</p>
+        <div class="json">{<br>&emsp;<span class="key">"class"</span>: <span class="value">(nome da classe detectada)</span><br>}</div>
+        <p>Exemplo:</p>
+        <div class="json">{<br>&emsp;<span class="key">"class"</span>: <span class="value">"praga"</span><br>}</div>
+        <p>Implemente a sua chamada ao WML no arquivo app.py e salve a classe na variável 'resposta' (linha 52). A resposta já está sendo retornada na rota <b>'/predict'</b>. Submeta a segunda parte <a href="https://desafio9.mybluemix.net" target="_blank">na mesma página</a>.</p>
+        </body>
+
+        <footer>
+        <hr>
+        <p style="margin-top: 2rem;">Links úteis:<br><a target="_blank" href="https://ibm-watson-iot.github.io/iot-python/application/">Watson IoT Platform - Python</a>
+        <br><a target="_blank" href="https://keras.io/">Keras</a>
+        <br><a target="_blank" href="https://www.tensorflow.org/guide/">TensorFlow</a>
+        <br><a target="_blank" href="https://desafio9.mybluemix.net">Página de submissão</a></p>
+        <h3>Bom trabalho!</h3>
+        </footer>
+
+    </div>
+</div>
+</html>
